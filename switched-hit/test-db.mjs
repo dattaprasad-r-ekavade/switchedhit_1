@@ -1,4 +1,4 @@
-import { db } from './src/lib/db.js';
+import db from './src/lib/db.ts';
 import { sql } from 'drizzle-orm';
 import dotenv from 'dotenv';
 
@@ -8,7 +8,7 @@ dotenv.config();
 async function testConnection() {
   console.log('Attempting to connect to the database...');
   try {
-    const result = await db.get(sql`SELECT 1 as result;`);
+    const result = await db.default.get(sql`SELECT 1 as result;`);
     console.log('Database connection successful!');
     console.log('Query result:', result);
   } catch (error) {
