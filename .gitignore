@@ -26,3 +26,9 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# Database
+database/database.sqlite
+
+# Render environment file (use .env.render as template)
+.env.render.local
