@@ -46,4 +46,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the team associated with the user.
+     */
+    public function team()
+    {
+        return $this->hasOne(Team::class);
+    }
 }
