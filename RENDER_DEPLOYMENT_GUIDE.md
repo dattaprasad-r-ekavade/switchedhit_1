@@ -211,7 +211,7 @@ LOG_LEVEL=error
 DB_CONNECTION=sqlite
 DB_DATABASE=/var/data/database.sqlite
 
-SESSION_DRIVER=database
+SESSION_DRIVER=file
 SESSION_LIFETIME=120
 
 CACHE_STORE=database
@@ -371,7 +371,7 @@ DB_CONNECTION=sqlite
 DB_DATABASE=/var/data/database.sqlite
 
 # Session & Cache
-SESSION_DRIVER=database
+SESSION_DRIVER=file
 CACHE_STORE=database
 QUEUE_CONNECTION=database
 
@@ -687,21 +687,71 @@ chmod 664 /var/data/database.sqlite
 php artisan migrate --force
 ```
 
+### "Attempt to Write a Readonly Database" Error
+
+**Problem:** SQLite error when trying to write (sessions, cache, etc.)
+
+**Root Cause:** SQLite database or its directory doesn't have write permissions in production.
+
+**Recommended Solution - Switch to File-Based Sessions:**
+
+1. **Update Environment Variable on Render:**
+   - Go to your service → Environment
+   - Change `SESSION_DRIVER=database` to `SESSION_DRIVER=file`
+   - Click "Save Changes"
+
+2. **Ensure storage directories exist (already in render-build.sh):**
+```bash
+mkdir -p storage/framework/{sessions,views,cache}
+chmod -R 775 storage bootstrap/cache
+```
+
+**Alternative Solutions:**
+
+**Option A: Fix Database Permissions** (if you prefer database sessions)
+```bash
+# Via Render Shell
+chmod 775 /var/data
+chmod 664 /var/data/database.sqlite
+chown -R www-data:www-data /var/data
+```
+
+**Option B: Use Cookie Sessions** (stateless, good for load balancing)
+```env
+SESSION_DRIVER=cookie
+```
+
+**Why File Sessions Are Better on Render:**
+- ✅ No database write conflicts
+- ✅ Better performance for sessions
+- ✅ No permission issues
+- ✅ Stateless deployments
+- ❌ Not ideal for multi-server setups (use Redis for that)
+
+**After changing SESSION_DRIVER:**
+```bash
+php artisan config:cache
+```
+
 ### Session/Login Issues
 
-**Problem:** Can't stay logged in, "419 Page Expired"
+**Problem:** Can't stay logged in, "419 Page Expired", or "attempt to write a readonly database"
 
 **Check:**
-1. `SESSION_DRIVER=database` in environment
-2. Sessions table exists (run migrations)
-3. `APP_URL` is correct (must match exactly)
-4. Cookie domain settings
+1. `SESSION_DRIVER=file` in environment (recommended for Render)
+2. `APP_URL` is correct (must match exactly)
+3. Cookie domain settings
+4. Storage directory has proper permissions
 
 **Fix:**
 ```bash
-php artisan migrate --force
+# Ensure storage directories exist and are writable
+mkdir -p storage/framework/{sessions,views,cache}
+chmod -R 775 storage bootstrap/cache
 php artisan config:cache
 ```
+
+**Note:** File-based sessions are more reliable on Render than database sessions due to SQLite write permission issues in production environments.
 
 ### Memory Issues (Free Tier)
 

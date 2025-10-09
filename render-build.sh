@@ -29,6 +29,17 @@ else
     echo "✓ Database file exists"
 fi
 
+# Ensure database directory is writable
+chmod 775 /var/data
+chown -R www-data:www-data /var/data 2>/dev/null || true
+
+# Setup storage directories with proper permissions
+echo "📁 Setting up storage directories..."
+mkdir -p storage/framework/{sessions,views,cache}
+mkdir -p storage/logs
+chmod -R 775 storage bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache 2>/dev/null || true
+
 # Clear Laravel caches
 echo "🧹 Clearing caches..."
 php artisan config:clear
