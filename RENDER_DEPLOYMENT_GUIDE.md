@@ -670,6 +670,55 @@ git commit --allow-empty -m "Trigger rebuild"
 git push origin main
 ```
 
+### Mixed Content Error (HTTP/HTTPS)
+
+**Problem:** Browser console shows "Mixed Content" error - assets loaded over HTTP instead of HTTPS
+
+**Error Message:**
+```
+Mixed Content: The page at 'https://yourapp.onrender.com/' was loaded over HTTPS, 
+but requested an insecure stylesheet 'http://yourapp.onrender.com/build/assets/app.css'
+```
+
+**Root Cause:** Laravel is generating HTTP URLs instead of HTTPS in production.
+
+**Solution:** Force HTTPS scheme in production (ALREADY FIXED in latest code):
+
+The `AppServiceProvider` has been updated to automatically force HTTPS:
+
+```php
+// app/Providers/AppServiceProvider.php
+public function boot(): void
+{
+    // Force HTTPS in production (for Render.com and other platforms)
+    if ($this->app->environment('production')) {
+        URL::forceScheme('https');
+    }
+    
+    // ... rest of boot logic
+}
+```
+
+**Verify Fix:**
+1. Ensure `APP_ENV=production` in Render environment variables
+2. Ensure `APP_URL=https://yourapp.onrender.com` (with https://)
+3. Redeploy or clear cache:
+```bash
+php artisan config:cache
+php artisan cache:clear
+```
+
+**Why This Happens:**
+- Render uses a reverse proxy (HTTPS → HTTP internally)
+- Laravel needs to know it's behind HTTPS proxy
+- `URL::forceScheme('https')` tells Laravel to always generate HTTPS URLs
+
+**Alternative Fix (if needed):**
+Add to environment variables:
+```env
+ASSET_URL=https://yourapp.onrender.com
+```
+
 ### Database Connection Errors
 
 **Problem:** "Database not found" or "unable to open database"
