@@ -43,7 +43,7 @@ export default function Welcome() {
                     </nav>
                 </header>
                 <div className="flex w-full items-center justify-center opacity-100 transition-opacity duration-750 lg:grow starting:opacity-0">
-                    <main className="flex w-full max-w-[335px] flex-col-reverse lg:max-w-4xl lg:flex-row">
+                    <main className="flex w-full max-w-[335px] flex-col-reverse lg:max-w-4xl lg:flex-row animate-in fade-in slide-in-from-top-4 duration-500">
                         <div className="flex-1 rounded-br-lg rounded-bl-lg bg-white p-6 pb-12 text-[13px] leading-[20px] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] lg:rounded-tl-lg lg:rounded-br-none lg:p-20 dark:bg-[#161615] dark:text-[#EDEDEC] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]">
                             <h1 className="mb-4 text-3xl font-bold text-[#1b1b18] dark:text-[#EDEDEC]">
                                 Welcome to SwitchedHit
@@ -80,13 +80,13 @@ export default function Welcome() {
                                 <div className="flex gap-4">
                                     <Link
                                         href={register()}
-                                        className="inline-block rounded-sm bg-[#f53003] px-6 py-2 text-sm font-medium leading-normal text-white hover:bg-[#d12802] dark:bg-[#FF4433] dark:hover:bg-[#e63946]"
+                                        className="inline-block rounded-sm bg-[#f53003] px-6 py-2 text-sm font-medium leading-normal text-white hover:bg-[#d12802] dark:bg-[#FF4433] dark:hover:bg-[#e63946] transition-all duration-300 hover:scale-105 hover:shadow-lg"
                                     >
                                         Start Your Journey
                                     </Link>
                                     <Link
                                         href={login()}
-                                        className="inline-block rounded-sm border border-[#19140035] px-6 py-2 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                                        className="inline-block rounded-sm border border-[#19140035] px-6 py-2 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b] transition-all duration-300 hover:scale-105"
                                     >
                                         Login
                                     </Link>
@@ -95,14 +95,14 @@ export default function Welcome() {
                             {auth.user && (
                                 <Link
                                     href={dashboard()}
-                                    className="inline-block rounded-sm bg-[#f53003] px-6 py-2 text-sm font-medium leading-normal text-white hover:bg-[#d12802] dark:bg-[#FF4433] dark:hover:bg-[#e63946]"
+                                    className="inline-block rounded-sm bg-[#f53003] px-6 py-2 text-sm font-medium leading-normal text-white hover:bg-[#d12802] dark:bg-[#FF4433] dark:hover:bg-[#e63946] transition-all duration-300 hover:scale-105 hover:shadow-lg"
                                 >
                                     Go to Dashboard
                                 </Link>
                             )}
                         </div>
                         <div className="mb-6 flex items-center justify-center lg:mb-0 lg:ml-6 lg:flex-1">
-                            <div className="relative aspect-square w-full max-w-sm overflow-hidden rounded-tl-lg rounded-tr-lg bg-gradient-to-br from-green-400 to-blue-500 p-8 shadow-lg lg:rounded-bl-none lg:rounded-tr-lg dark:from-green-600 dark:to-blue-700">
+                            <div className="relative aspect-square w-full max-w-sm overflow-hidden rounded-tl-lg rounded-tr-lg bg-gradient-to-br from-green-400 to-blue-500 p-8 shadow-lg lg:rounded-bl-none lg:rounded-tr-lg dark:from-green-600 dark:to-blue-700 transition-all duration-500 hover:shadow-2xl hover:scale-105">
                                 <div className="flex h-full flex-col items-center justify-center text-white">
                                     <div className="mb-4 text-6xl"></div>
                                     <h3 className="text-xl font-bold">SwitchedHit</h3>

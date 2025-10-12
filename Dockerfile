@@ -33,6 +33,12 @@ COPY . /var/www
 # Copy .env.example to .env (this is the fix for the key:generate error)
 RUN cp .env.example .env
 
+# Create database directory early
+RUN mkdir -p /var/data && chmod 777 /var/data
+
+# Set database path in .env
+RUN echo "DB_DATABASE=/var/data/database.sqlite" >> .env
+
 # Install PHP dependencies
 RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
@@ -45,15 +51,15 @@ RUN npm run build
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www/storage \
-    && chmod -R 755 /var/www/bootstrap/cache
+    && chmod -R 775 /var/www/storage \
+    && chmod -R 775 /var/www/bootstrap/cache
 
 # Configure Apache
 RUN a2enmod rewrite
 COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
 
-# Create database directory
-RUN mkdir -p /var/data && chmod 777 /var/data
+# Ensure database directory has correct ownership
+RUN chown -R www-data:www-data /var/data
 
 # Expose port 80
 EXPOSE 80

@@ -1,5 +1,6 @@
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { PlayerBust } from '@/components/PlayerJersey';
+import { ComingSoon } from '@/components/coming-soon';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
@@ -71,7 +72,7 @@ export default function Dashboard({ team }: DashboardProps) {
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 {/* Team Overview Section */}
                 {team && (
-                    <div className="rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20">
+                    <div className="rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 animate-in fade-in slide-in-from-top-4 duration-500">
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                             <div className="flex items-start gap-4">
                                 <PlayerBust
@@ -93,15 +94,15 @@ export default function Dashboard({ team }: DashboardProps) {
                                 </div>
                             </div>
                             <div className="flex gap-4">
-                                <div className="text-center px-4 py-2 rounded-lg bg-background/50">
+                                <div className="text-center px-4 py-2 rounded-lg bg-background/50 transition-all duration-300 hover:bg-background/70 hover:scale-105">
                                     <div className="text-2xl font-bold">{team.players?.length || 0}</div>
                                     <div className="text-xs text-muted-foreground">Players</div>
                                 </div>
-                                <div className="text-center px-4 py-2 rounded-lg bg-background/50">
+                                <div className="text-center px-4 py-2 rounded-lg bg-background/50 transition-all duration-300 hover:bg-background/70 hover:scale-105">
                                     <div className="text-2xl font-bold">{getAverageFitness()}%</div>
                                     <div className="text-xs text-muted-foreground">Avg Fitness</div>
                                 </div>
-                                <div className="text-center px-4 py-2 rounded-lg bg-background/50">
+                                <div className="text-center px-4 py-2 rounded-lg bg-background/50 transition-all duration-300 hover:bg-background/70 hover:scale-105">
                                     <div className="text-2xl font-bold">{getAverageMorale()}%</div>
                                     <div className="text-xs text-muted-foreground">Avg Morale</div>
                                 </div>
@@ -111,7 +112,7 @@ export default function Dashboard({ team }: DashboardProps) {
                 )}
 
                 <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <Link href="/team" className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-6 hover:bg-accent/50 transition-colors cursor-pointer">
+                    <Link href="/team" className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-6 hover:bg-accent/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:border-blue-500/50 hover:scale-[1.02]">
                         <div className="flex flex-col h-full">
                             <div className="flex items-center mb-4">
                                 <div className="w-8 h-8 bg-blue-500 rounded-full mr-3 flex items-center justify-center">
@@ -149,38 +150,40 @@ export default function Dashboard({ team }: DashboardProps) {
                             </div>
                         </div>
                     </Link>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-6">
+                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-6 transition-all duration-300 hover:shadow-lg hover:border-green-500/50">
                         <div className="flex flex-col h-full">
                             <div className="flex items-center mb-4">
-                                <div className="w-8 h-8 bg-green-500 rounded-full mr-3 flex items-center justify-center">
+                                <div className="w-8 h-8 bg-green-500 rounded-full mr-3 flex items-center justify-center animate-pulse">
                                     <TrendingUp className="w-4 h-4 text-white" />
                                 </div>
                                 <h3 className="text-lg font-semibold">Training</h3>
                             </div>
-                            <p className="text-sm text-muted-foreground mb-4">Train players daily</p>
-                            <div className="flex-1">
-                                <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                            </div>
+                            <ComingSoon 
+                                title="Training System" 
+                                description="Train your players to improve their skills and performance"
+                                className="flex-1 h-full"
+                            />
                         </div>
                     </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-6">
+                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-6 transition-all duration-300 hover:shadow-lg hover:border-red-500/50">
                         <div className="flex flex-col h-full">
                             <div className="flex items-center mb-4">
-                                <div className="w-8 h-8 bg-red-500 rounded-full mr-3 flex items-center justify-center">
+                                <div className="w-8 h-8 bg-red-500 rounded-full mr-3 flex items-center justify-center animate-pulse" style={{ animationDelay: '0.2s' }}>
                                     <Trophy className="w-4 h-4 text-white" />
                                 </div>
                                 <h3 className="text-lg font-semibold">Matches</h3>
                             </div>
-                            <p className="text-sm text-muted-foreground mb-4">View scorecards & commentary</p>
-                            <div className="flex-1">
-                                <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                            </div>
+                            <ComingSoon 
+                                title="Match System" 
+                                description="Experience simulated matches with live commentary and detailed scorecards"
+                                className="flex-1 h-full"
+                            />
                         </div>
                     </div>
                 </div>
                 {team && (
                     <div className="grid auto-rows-min gap-4 md:grid-cols-2">
-                        <div className="relative overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-6">
+                        <div className="relative overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-6 transition-all duration-300 hover:shadow-lg hover:border-yellow-500/50">
                             <div className="flex flex-col">
                                 <div className="flex items-center mb-4">
                                     <div className="w-8 h-8 bg-yellow-500 rounded-full mr-3 flex items-center justify-center">
@@ -223,16 +226,19 @@ export default function Dashboard({ team }: DashboardProps) {
                                 </div>
                             </div>
                         </div>
-                        <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-6">
+                        <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-6 transition-all duration-300 hover:shadow-lg hover:border-purple-500/50">
                             <div className="flex flex-col h-full">
                                 <div className="flex items-center mb-4">
-                                    <div className="w-8 h-8 bg-purple-500 rounded-full mr-3"></div>
+                                    <div className="w-8 h-8 bg-purple-500 rounded-full mr-3 flex items-center justify-center animate-pulse" style={{ animationDelay: '0.4s' }}>
+                                        <Users className="w-4 h-4 text-white" />
+                                    </div>
                                     <h3 className="text-lg font-semibold">Playing XI</h3>
                                 </div>
-                                <p className="text-sm text-muted-foreground mb-4">Select your starting lineup</p>
-                                <div className="flex-1">
-                                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                                </div>
+                                <ComingSoon 
+                                    title="Team Selection" 
+                                    description="Choose your best 11 players for the next match"
+                                    className="flex-1 h-full"
+                                />
                             </div>
                         </div>
                     </div>
